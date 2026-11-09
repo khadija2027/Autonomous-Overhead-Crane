@@ -190,32 +190,5 @@ python -m stereo_vision -v detect                   # debug logging
 
 Measurements are drawn on both camera windows and logged to the console. Press `q` to quit.
 
-### Configuration
 
-Hardware values, confidence thresholds, class aliases, matching tolerances and the crane-frame offset are all defined in [`stereo_vision/config.py`](stereo_vision/config.py). To tune a mode, edit its entry in `PROFILES`. To add a mode, add a new `Profile`; it appears in `--mode` automatically.
 
-### Known limitations
-
-- Frames are not rectified by default, so the left/right matching tolerances are deliberately generous (60 px vertical).
-- Depth includes an empirical correction factor (`StereoConfig.distance_scale`, from a 90 cm reference measured as 50 cm). Recalibrating with the real chessboard square size would make this unnecessary.
-- In the `xyz` and `crane` modes, person and box detections are filtered out by the allowed-class list, even though both models run.
-- Each frame runs five models on both cameras. Expect a low frame rate on CPU.
-
-## Troubleshooting
-
-| Symptom | Likely cause and fix |
-|---|---|
-| `Cannot open camera N` | Wrong index, or the camera is used by another app. Run `preview` with other `--left` / `--right` values (indexes often skip numbers on laptops with a built-in webcam). |
-| Left and right windows are swapped | Swap the `--left` and `--right` values. |
-| `Model file not found ... Set PERSON_MODEL_PATH` | The person and box checkpoints are not in the repository. Set the environment variables shown above. |
-| `TRACKING LOST` shown constantly | Nothing was detected in at least one camera. Check lighting and that the object is visible in both views. |
-| Detections appear but no distance is shown | No left/right match was found within the tolerances, or the depth fell outside 10–500 cm. Make sure both cameras are level and parallel, or recalibrate and try `--rectify`. |
-| Distances are consistently off by a factor | Check `baseline_cm` against the real distance between lenses, then recalibrate. |
-| `Calibration file not readable` or intrinsics warning | `stereoMap.xml` is missing or incomplete; the code falls back to the field-of-view approximation. Run `capture` and `calibrate`. |
-| `No 7x7 chessboard corners were found` | The board was not fully visible in both images, or it has a different number of inner corners. Recapture, or change `CHESSBOARD_SIZE`. |
-| Very slow / low FPS | Inference runs on CPU. Install a CUDA build of PyTorch, or remove unneeded models from the profile in `config.py`. |
-| Paths with accents (e.g. `détection`) | Supported: image and calibration files are read and written through Python rather than OpenCV's file functions. |
-
-## License and publication notes
-
-No license has been selected for the project code. Add a code license before publishing if you want to grant reuse permissions. Check the rights and attribution requirements for each included model and any camera images before distributing them.
