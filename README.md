@@ -33,8 +33,8 @@ flowchart LR
 
     subgraph Models
         M1[truck]
-        M2['burdens']
-        M2[cone]
+        M2[burdens]
+        M3[cone]
         
     end
 
