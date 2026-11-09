@@ -1,0 +1,6 @@
+ipython
+jupyter
+numpy
+opencv-python
+PyYAML
+ultralytics
