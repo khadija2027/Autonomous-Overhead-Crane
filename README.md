@@ -32,11 +32,10 @@ flowchart LR
     end
 
     subgraph Models
-        M1[truck/cargo]
+        M1[truck]
+        M2['burdens']
         M2[cone]
-        M3[person]
-        M4[box]
-        M5[YOLOv8n COCO]
+        
     end
 
     CFG[(config.py<br/>profiles: depth / xyz / crane)]
